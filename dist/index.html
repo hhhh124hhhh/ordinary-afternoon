@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101a18">
+  <title>一个普通的下午</title>
+  <link rel="stylesheet" href="afternoon.css">
+  <script defer src="island.js"></script>
+  <script defer src="afternoon.js"></script>
+</head>
+<body data-view="entry">
+  <svg xmlns="http://www.w3.org/2000/svg" class="icons" aria-hidden="true">
+    <symbol id="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M4.9 4.9 7 7m10 10 2.1 2.1m0-14.2L17 7M7 17l-2.1 2.1"/></symbol>
+    <symbol id="sound" viewBox="0 0 24 24"><path d="M3 9h4l5-4v14l-5-4H3zM16 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></symbol>
+    <symbol id="mute" viewBox="0 0 24 24"><path d="M3 9h4l5-4v14l-5-4H3zm13 1 5 5m0-5-5 5"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path d="M12 6C9 3 5 3 2 4v14c4-1 7-1 10 2 3-3 6-3 10-2V4c-3-1-7-1-10 2zm0 0v14"/></symbol>
+    <symbol id="music" viewBox="0 0 24 24"><path d="M9 17V5l11-2v12M9 8l11-2"/><ellipse cx="6" cy="17" rx="3" ry="2.5"/><ellipse cx="17" cy="15" rx="3" ry="2.5"/></symbol>
+    <symbol id="people" viewBox="0 0 24 24"><circle cx="9" cy="7" r="3"/><path d="M2 20v-2c0-3 3-5 7-5s7 2 7 5v2M16 4a3 3 0 0 1 0 6m2 3c2.5.7 4 2.5 4 5v2"/></symbol>
+    <symbol id="pencil" viewBox="0 0 24 24"><path d="m4 16-1 5 5-1L21 7l-4-4zm10-10 4 4M4 16l4 4"/></symbol>
+    <symbol id="leaf" viewBox="0 0 24 24"><path d="M4 16C1 6 14 5 21 3c1 10-4 16-11 16-3 0-5-1-6-3zm-2 5L16 9"/></symbol>
+    <symbol id="arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
+    <symbol id="arrow-back" viewBox="0 0 24 24"><path d="M20 12H5m6-6-6 6 6 6"/></symbol>
+    <symbol id="pause" viewBox="0 0 24 24"><path d="M9 5v14m6-14v14"/></symbol>
+    <symbol id="play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7z"/></symbol>
+    <symbol id="close" viewBox="0 0 24 24"><path d="m5 5 14 14m0-14L5 19"/></symbol>
+    <symbol id="menu-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></symbol>
+  </svg>
+  <main class="hero">
+        <section class="copy" aria-label="岛屿故事">
+          <div id="intro">
+            <p class="eyebrow"><span></span> 一个普通的下午</p>
+            <h1>把下午<br><em>留给自己。</em></h1>
+            <p class="intro-text">如果不再需要向任何人证明自己，<br>你想怎样度过一个普通的下午？</p>
+            <button class="primary portal-enter" id="explore" type="button">走进画里 <svg><use href="#arrow"/></svg></button>
+          </div>
+          <div id="walking" hidden>
+            <p class="walk-help"><kbd>WASD</kbd> 行走　<kbd>E</kbd> 互动　拖动转视角</p>
+            <p class="walk-touch-help">按住方向键走动，拖动画面转视角。</p>
+            <p id="walk-nearby" class="sr-only" aria-live="polite"></p>
+          </div>
+          <article id="story" hidden>
+            <button class="back" id="back" type="button"><svg><use href="#arrow-back"/></svg> <span>回到全景</span></button>
+            <p id="story-kicker" class="eyebrow"><span></span></p>
+            <h2 id="story-title" tabindex="-1"></h2>
+            <p id="story-text" class="intro-text"></p>
+            <blockquote id="story-quote"></blockquote>
+            <div class="story-actions">
+              <button class="primary" id="moment" type="button"></button>
+              <button class="text-button" id="write-note" type="button" hidden><svg><use href="#pencil"/></svg> 写自己的便笺</button>
+              <button class="text-button" id="next" type="button">去下一处 <svg><use href="#arrow"/></svg></button>
+            </div>
+            <p class="moment-note" id="moment-note" aria-live="polite"></p>
+            <div id="record-player" hidden>
+              <div class="story-actions">
+                <label for="online-record">在线歌单</label>
+                <select class="record-select" id="online-record">
+                  <option value="0">Gymnopédie No. 1</option>
+                  <option value="1">Gymnopédie No. 2</option>
+                  <option value="2">Gymnopédie No. 3</option>
+                </select>
+                <button class="text-button" id="play-online-record" type="button">播放所选曲目</button>
+              </div>
+              <p class="moment-note">Erik Satie 作曲 · <a class="text-button" id="online-record-source" href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100787" target="_blank" rel="noopener noreferrer">Kevin MacLeod 演奏</a> · <a class="text-button" href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a></p>
+              <div class="story-actions">
+                <button class="text-button" id="import-record" type="button">导入 ACE 或本地音乐</button>
+                <a class="text-button" href="https://commons.wikimedia.org/wiki/Commons:Featured_sounds/Music" target="_blank" rel="noopener noreferrer">获取免费音乐 ↗</a>
+              </div>
+              <input id="record-file" type="file" accept="audio/*,.mp3,.wav,.ogg,.m4a,.flac" hidden>
+              <p id="record-status" class="moment-note" role="status" hidden></p>
+              <audio id="record-audio" controls preload="metadata" aria-label="留声机播放器" style="width: 100%; max-width: 320px" hidden></audio>
+            </div>
+          </article>
+        </section>
+        <section class="stage" aria-label="3D 岛屿">
+          <canvas id="world">你的浏览器无法显示 3D 岛屿，可以通过菜单阅读岛上的故事。</canvas>
+          <div class="paint-frame" aria-hidden="true"></div>
+          <div id="markers" class="markers"></div>
+          <p id="render-error" class="render-error" hidden>当前浏览器无法加载 3D 场景，仍可阅读岛上的故事。</p>
+          <div class="walk-controls" id="walk-controls" hidden>
+            <div class="move-pad" role="group" aria-label="行走方向">
+              <button type="button" data-move="upLeft" aria-label="向左上走"><svg><use href="#arrow"/></svg></button>
+              <button type="button" data-move="up" aria-label="向前走"><svg><use href="#arrow"/></svg></button>
+              <button type="button" data-move="upRight" aria-label="向右上走"><svg><use href="#arrow"/></svg></button>
+              <button type="button" data-move="left" aria-label="向左走"><svg><use href="#arrow"/></svg></button>
+              <button type="button" data-move="right" aria-label="向右走"><svg><use href="#arrow"/></svg></button>
+              <button type="button" data-move="downLeft" aria-label="向左下走"><svg><use href="#arrow"/></svg></button>
+              <button type="button" data-move="down" aria-label="向后走"><svg><use href="#arrow"/></svg></button>
+              <button type="button" data-move="downRight" aria-label="向右下走"><svg><use href="#arrow"/></svg></button>
+            </div>
+            <button type="button" class="walk-use" id="walk-use" disabled>互动</button>
+          </div>
+        </section>
+        <button class="menu-trigger" id="open-menu" type="button" aria-label="岛屿菜单" aria-haspopup="dialog" title="岛屿菜单" hidden><svg><use href="#menu-dots"/></svg></button>
+        <div class="portal-flash" aria-hidden="true"></div>
+  </main>
+  <dialog id="island-menu" aria-labelledby="menu-title">
+      <button class="close" id="close-menu" type="button" aria-label="关闭菜单"><svg><use href="#close"/></svg></button>
+      <h2 id="menu-title">岛屿菜单</h2>
+      <div class="menu-settings">
+        <button class="sound-toggle" type="button" aria-pressed="false" id="sound-toggle"><svg><use href="#mute"/></svg><span>环境音</span></button>
+        <button class="motion-toggle" id="motion-toggle" type="button" aria-pressed="false"><svg><use href="#pause"/></svg><span id="motion-label">暂停时间</span></button>
+        <button class="light-toggle" id="light-toggle" type="button" aria-label="跳到岛上的下一个时段" title="跳到下一个时段"><svg><use href="#sun"/></svg><span>下个时段</span></button>
+        <label class="season-setting">四季
+          <select id="season-select" aria-label="切换岛屿的季节">
+            <option value="0">春</option><option value="1" selected>夏</option><option value="2">秋</option><option value="3">冬</option>
+          </select>
+        </label>
+      </div>
+      <p class="menu-clock">岛上时间 <b id="time-label">16:20</b> · <span id="light-label">午后</span></p>
+      <nav class="stops" id="stops" aria-label="岛屿地点"></nav>
+      <div class="menu-exits">
+        <button class="text-button" id="open-journal" type="button"><svg><use href="#pencil"/></svg> 留下一句话</button>
+        <button class="text-button" id="home" type="button"><svg><use href="#arrow-back"/></svg> 回到画外</button>
+      </div>
+  </dialog>
+  <dialog id="journal" aria-labelledby="journal-title">
+    <form id="journal-form">
+      <button class="close" id="close-journal" type="button" aria-label="关闭"><svg><use href="#close"/></svg></button>
+      <p class="eyebrow"><span></span> 给自己的便笺</p>
+      <h2 id="journal-title">你想怎样度过<br>这个下午？</h2>
+      <textarea id="journal-text" aria-labelledby="journal-title" placeholder="今天，我想……" rows="4" maxlength="500"></textarea>
+      <div class="journal-bottom"><span id="journal-status" role="status">便笺保存在当前浏览器。</span><button class="primary" type="submit">保存</button></div>
+    </form>
+  </dialog>
+</body>
+</html>
